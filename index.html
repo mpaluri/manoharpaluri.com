@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Manohar Paluri</title>
+
+<!--
+DESIGN REASONING (junior-designer-to-manager note)
+──────────────────────────────────────────────────
+Who: Manohar Paluri, VP at Meta, leads Llama.
+Goals: (1) "who is Manohar" credibility page, (2) one-stop index of work for
+recruiters/press/students, (3) surface thinking — talks, writing, POV on AI.
+Reference: nat.org — pure typography, strong POV, no chrome.
+Our twist: Manohar asked for a polished portrait front and center and wants
+personality (hobbies, travel) to show. So we add one warm visual anchor
+(portrait + an accent color) without turning it into a marketing site.
+
+System we're committing to:
+- TYPE: Fraunces-substitute-style editorial serif headline would feel overused.
+  Going with "Newsreader" (Google Fonts) for display — warm, modern, readable —
+  paired with "Inter" for UI text and "JetBrains Mono" for metadata/labels.
+  (Exposed as a Tweak so you can try Serif / Sans / Mixed.)
+- COLOR: warm editorial by default — ivory paper #f5f0e6, ink #1b1a17,
+  accent deep-green #1f4d3a (your "vibe 5"). Also a deep-green-dark theme
+  and a crisp paper-light variant, switchable via Tweaks.
+- LAYOUT: single-column, ~680px reading measure, left-aligned. Generous
+  margins. Section headers are small uppercase mono labels — keeps the page
+  quiet and lets content do the talking. Nat-style.
+- IMAGERY: one portrait slot in the hero. Travel photos section uses a
+  simple 3-col grid with striped placeholders (you said "use Google site
+  copy + placeholders where missing").
+- INTERACTIVITY: static per your ask, except Tweaks (hero variant, theme,
+  accent, font pairing) and a filter-free publications link-out.
+- HERO VARIANTS (Tweak): 
+    A. Portrait-left, bio-right — classic, polished.
+    B. Big name typographic (Nat-style), portrait small in corner.
+    C. Full bleed portrait top, name + bio stacked beneath — magazine.
+
+Placeholders are clearly marked so it's obvious what's real vs to-fill.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  /* ---- Tweakable defaults (host rewrites this on tweak save) ---- */
+  /* See the inline script below that reads TWEAK_DEFAULTS. */
+
+  :root {
+    --paper: #f5f0e6;
+    --ink: #1b1a17;
+    --ink-soft: #5a564d;
+    --rule: #d9d2c2;
+    --accent: #1f4d3a;
+    --accent-soft: #d7e3dc;
+    --chip: #eae3d1;
+
+    --font-display: "Newsreader", Georgia, serif;
+    --font-ui: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --measure: 680px;
+    --page-x: clamp(24px, 6vw, 96px);
+
+    --display-size: clamp(40px, 6.2vw, 84px);
+    --h2-size: clamp(22px, 2.2vw, 28px);
+    --body-size: 18px;
+    --small-size: 13px;
+  }
+
+  html[data-theme="green"] {
+    --paper: #0e1a14;
+    --ink: #e8e0cf;
+    --ink-soft: #9aa89e;
+    --rule: #1d2b22;
+    --accent: #8ad1a7;
+    --accent-soft: #18291f;
+    --chip: #17231c;
+  }
+
+  html[data-theme="paper"] {
+    --paper: #ffffff;
+    --ink: #111111;
+    --ink-soft: #5a5a5a;
+    --rule: #e5e5e5;
+    --accent: #1f4d3a;
+    --accent-soft: #e8f0ec;
+    --chip: #f1efea;
+  }
+
+  html[data-font="sans"] {
+    --font-display: "Inter", system-ui, sans-serif;
+  }
+  html[data-font="mono"] {
+    --font-display: "JetBrains Mono", ui-monospace, monospace;
+    --display-size: clamp(32px, 4.6vw, 56px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--font-ui);
+    font-size: var(--body-size);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color .25s ease, color .25s ease;
+  }
+
+  a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--rule); transition: color .15s ease, text-decoration-color .15s ease; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* ---- Layout primitives ---- */
+  .page { max-width: calc(var(--measure) + var(--page-x) * 2); margin: 0 auto; padding: 56px var(--page-x) 120px; }
+  .section { margin-top: 72px; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+  }
+
+  .measure { max-width: var(--measure); }
+
+  hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 64px 0 0; }
+
+  /* ---- Top bar ---- */
+  .topbar { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; }
+  .topbar .mark { color: var(--ink); font-weight: 500; }
+  .topbar nav a { margin-left: 18px; text-decoration: none; color: var(--ink-soft); }
+  .topbar nav a:hover { color: var(--accent); }
+
+  /* ---- Hero ---- */
+  .hero { margin-top: 56px; }
+  .hero .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--display-size);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    margin: 0 0 20px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .hero .kicker {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: clamp(18px, 1.6vw, 22px);
+    margin: 0 0 28px;
+    max-width: 560px;
+  }
+  .hero p { max-width: 620px; margin: 0 0 14px; }
+  .hero .tagline-dots { display: inline-flex; gap: 6px; margin-left: 2px; }
+  .hero .tagline-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-soft); opacity: .4; }
+
+  /* Hero variant A: portrait-left, bio-right */
+  .hero[data-variant="A"] { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
+  .hero[data-variant="A"] .portrait { aspect-ratio: 4/5; width: 100%; border-radius: 2px; overflow: hidden; }
+  @media (max-width: 760px) {
+    .hero[data-variant="A"] { grid-template-columns: 1fr; }
+    .hero[data-variant="A"] .portrait { max-width: 240px; }
+  }
+
+  /* Hero variant B: big name typographic, small portrait in corner */
+  .hero[data-variant="B"] { position: relative; }
+  .hero[data-variant="B"] h1 { font-size: clamp(56px, 9vw, 120px); line-height: 0.92; }
+  .hero[data-variant="B"] .portrait { position: absolute; top: 0; right: 0; width: 120px; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; }
+  @media (max-width: 760px) {
+    .hero[data-variant="B"] .portrait { position: static; margin-bottom: 16px; }
+  }
+
+  /* Hero variant C: full-bleed portrait top */
+  .hero[data-variant="C"] .portrait-wide {
+    width: 100%; aspect-ratio: 16/7; overflow: hidden; margin-bottom: 36px; border-radius: 2px;
+  }
+
+  /* Portrait placeholder (striped) */
+  .portrait-placeholder, .portrait-wide-placeholder {
+    width: 100%; height: 100%;
+    background:
+      repeating-linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--accent) 16%, var(--paper)) 0 12px,
+        color-mix(in oklab, var(--accent) 8%, var(--paper)) 12px 24px
+      );
+    display: flex; align-items: flex-end; justify-content: flex-start;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Meta row (roles / links) ---- */
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 8px 8px; margin-top: 24px;
+    font-family: var(--font-mono); font-size: 12px;
+  }
+  .chip {
+    padding: 6px 10px;
+    background: var(--chip);
+    color: var(--ink);
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border: 1px solid transparent;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip .dot { display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+
+  /* ---- Lists ---- */
+  ul.clean, ol.clean { padding-left: 0; list-style: none; margin: 0; }
+  ul.clean li, ol.clean li { padding: 14px 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 96px 1fr auto; gap: 20px; align-items: baseline; }
+  ul.clean li:last-child, ol.clean li:last-child { border-bottom: 1px solid var(--rule); }
+  ul.clean li .when { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; }
+  ul.clean li .what { color: var(--ink); }
+  ul.clean li .what .sub { display: block; color: var(--ink-soft); font-size: 15px; margin-top: 2px; }
+  ul.clean li .where { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); text-align: right; }
+  @media (max-width: 680px) {
+    ul.clean li, ol.clean li { grid-template-columns: 1fr; gap: 4px; }
+    ul.clean li .where { text-align: left; }
+  }
+
+  /* ---- Now box ---- */
+  .now {
+    border: 1px solid var(--rule);
+    padding: 28px 28px 24px;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--accent-soft) 50%, var(--paper));
+    position: relative;
+  }
+  .now .blink {
+    display: inline-block; width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+    animation: blink 1.6s ease-in-out infinite;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  .now .now-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .now p { margin: 10px 0 0; }
+  .now .stamp { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); margin-top: 14px; letter-spacing: 0.04em; }
+
+  /* ---- Bullet list (beliefs / about me) ---- */
+  ul.bullets { padding-left: 0; list-style: none; margin: 0; }
+  ul.bullets li { padding: 10px 0 10px 20px; position: relative; }
+  ul.bullets li::before {
+    content: ""; position: absolute; left: 0; top: 22px;
+    width: 8px; height: 1px; background: var(--ink-soft);
+  }
+
+  /* ---- Travel grid ---- */
+  .travel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .travel-grid .photo { aspect-ratio: 1/1; overflow: hidden; border-radius: 2px; }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(45deg, var(--chip) 0 8px, var(--paper) 8px 16px);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); letter-spacing: 0.08em;
+    text-align: center; padding: 8px;
+  }
+  @media (max-width: 560px) { .travel-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---- Press kit card ---- */
+  .press {
+    display: grid; grid-template-columns: 96px 1fr; gap: 20px; padding: 20px; border: 1px solid var(--rule); border-radius: 2px;
+  }
+  .press .thumb { aspect-ratio: 1/1; }
+  .press .thumb .portrait-placeholder { border-radius: 50%; }
+  .press .title { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; line-height: 1.2; }
+  .press .title-sub { color: var(--ink-soft); font-size: 15px; margin: 0 0 12px; }
+  .press .downloads { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* ---- Footer ---- */
+  footer { margin-top: 96px; padding-top: 28px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; }
+  footer a { color: var(--ink-soft); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ---- Tweak panel (shown only when Tweaks is toggled) ---- */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px; width: 280px;
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 16px; border-radius: 4px;
+    font-family: var(--font-ui); font-size: 13px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+    display: none;
+    z-index: 50;
+  }
+  .tweaks[data-open="true"] { display: block; }
+  .tweaks h4 { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .tweaks .row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tweaks button {
+    border: 1px solid var(--rule); background: transparent; color: var(--ink);
+    padding: 6px 10px; border-radius: 2px; font-family: var(--font-mono); font-size: 11px; cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .tweaks button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .tweaks button:hover { border-color: var(--accent); }
+  .tweaks .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
+
+  /* ---- Placeholder callouts (make it obvious what's real) ---- */
+  .placeholder-note {
+    display: inline-block; font-family: var(--font-mono); font-size: 11px;
+    background: transparent; color: var(--ink-soft);
+    border: 1px dashed var(--rule); padding: 2px 6px; border-radius: 2px;
+    letter-spacing: 0.04em;
+    margin-left: 8px;
+  }
+
+  /* ---- Misc ---- */
+  .inline-badge { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="mark">Manohar Paluri</div>
+    <nav>
+      <a href="#now">Now</a>
+      <a href="#writing">Writing</a>
+      <a href="#talks">Talks</a>
+      <a href="#foundation">Foundation</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" data-variant="A" id="hero">
+    <div class="portrait">
+      <div class="portrait-placeholder">portrait &mdash; drop 4:5 photo</div>
+    </div>
+    <div class="hero-copy">
+      <div class="eyebrow"><span>Palo Alto · VP, Meta</span></div>
+      <h1>Building <em>general intelligence</em> for people and agents.</h1>
+      <p class="kicker">Researcher, builder, and occasional traveler. I lead the Llama organization at Meta.</p>
+      <p>
+        I'm a VP at Meta and lead the Llama organization as part of our AI efforts. My group focuses on research to unlock general intelligence to enable Human and Agent interactions at scale &mdash; pushing the frontier and enabling developers inside Meta and across the ecosystem to build transformational experiences for billions of people.
+      </p>
+      <div class="meta-row">
+        <a class="chip" href="https://www.llama.com"><span class="dot"></span>Llama</a>
+        <a class="chip" href="https://ai.meta.com/blog/?page=1"><span class="dot"></span>Meta&nbsp;AI&nbsp;Blog</a>
+        <a class="chip" href="#pubs"><span class="dot"></span>Publications</a>
+        <a class="chip" href="#cv"><span class="dot"></span>CV&nbsp;(PDF)</a>
+        <a class="chip" href="http://www.flickr.com/photos/manoharpaluri/"><span class="dot"></span>Flickr</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- NOW -->
+  <section class="section" id="now">
+    <p class="section-label">Now</p>
+    <div class="now">
+      <div class="now-title"><span class="blink"></span>Currently working on</div>
+      <p>
+        Leading <a href="https://www.llama.com">Llama</a> &mdash; open models that unlock general intelligence for Human and Agent interactions at scale. Day-to-day that means pretraining, post-training, evals, safety, and shipping models developers actually build with.
+      </p>
+      <p>
+        Latest from the team &rarr; <a href="https://ai.meta.com/blog/?page=1">Meta AI Blog</a>.
+      </p>
+      <div class="stamp">Last updated &mdash; <span class="placeholder-note">date TBD</span></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section measure" id="about">
+    <p class="section-label">A few things about me</p>
+    <ul class="bullets">
+      <li>I grew up in India and live in the Bay Area.</li>
+      <li>I spent years at Meta working across computer vision, multimodal understanding, and now frontier language models.</li>
+      <li>I care about open research &mdash; the kind that builds on itself, publicly.</li>
+      <li>I travel when I can. Moments from the road live on <a href="http://www.flickr.com/photos/manoharpaluri/">Flickr</a>.</li>
+      <li>My wife and I run the <a href="https://palurifoundation.org">Paluri Foundation</a>, a small family foundation focused on <span class="placeholder-note">mission area TBD</span>.</li>
+      <li><span class="placeholder-note">add: a hobby / interest / belief you want here</span></li>
+    </ul>
+  </section>
+
+  <!-- WRITING -->
+  <section class="section measure" id="writing">
+    <p class="section-label">Writing</p>
+    <ul class="clean">
+      <li>
+        <span class="when">2026 · <span class="placeholder-note">mo</span></span>
+        <span class="what">
+          <span class="placeholder-note">post title</span>
+          <span class="sub">Short dek explaining why this piece exists.</span>
+        </span>
+        <span class="where">essay</span>
+      </li>
+      <li>
+        <span class="when">2025 · <span class="placeholder-note">mo</span></span>
+        <span class="what">
+          <span class="placeholder-note">post title</span>
+          <span class="sub">A second placeholder &mdash; swap in an actual post or remove.</span>
+        </span>
+        <span class="where">note</span>
+      </li>
+      <li>
+        <span class="when">&mdash;</span>
+        <span class="what">
+          <span class="placeholder-note">add more posts or link to a writing index</span>
+        </span>
+        <span class="where">&mdash;</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- TALKS & MEDIA -->
+  <section class="section measure" id="talks">
+    <p class="section-label">Talks &amp; media</p>
+    <ul class="clean">
+      <li>
+        <span class="when">2025</span>
+        <span class="what">
+          <span class="placeholder-note">podcast / keynote title</span>
+          <span class="sub">Brief context &mdash; what we talked about.</span>
+        </span>
+        <span class="where"><span class="placeholder-note">venue</span></span>
+      </li>
+      <li>
+        <span class="when">2025</span>
+        <span class="what">
+          <span class="placeholder-note">interview title</span>
+          <span class="sub">Publication or show name.</span>
+        </span>
+        <span class="where"><span class="placeholder-note">venue</span></span>
+      </li>
+      <li>
+        <span class="when">2024</span>
+        <span class="what">
+          <span class="placeholder-note">keynote / panel</span>
+          <span class="sub">Conference or event.</span>
+        </span>
+        <span class="where"><span class="placeholder-note">venue</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PUBLICATIONS (link-out to full list) -->
+  <section class="section measure" id="pubs">
+    <p class="section-label">Publications &amp; patents</p>
+    <p>
+      A full index of peer-reviewed work, preprints, and granted patents lives on a dedicated page.
+      <a href="#">See all publications &rarr;</a>
+      <span class="placeholder-note">link target TBD</span>
+    </p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section measure" id="timeline">
+    <p class="section-label">Timeline</p>
+    <ol class="clean">
+      <li>
+        <span class="when">present</span>
+        <span class="what">VP, Llama<span class="sub">Meta &mdash; leading the Llama organization.</span></span>
+        <span class="where">Meta</span>
+      </li>
+      <li>
+        <span class="when"><span class="placeholder-note">year</span></span>
+        <span class="what"><span class="placeholder-note">prior role</span><span class="sub">What it was, what you did.</span></span>
+        <span class="where"><span class="placeholder-note">org</span></span>
+      </li>
+      <li>
+        <span class="when"><span class="placeholder-note">year</span></span>
+        <span class="what"><span class="placeholder-note">earlier role</span><span class="sub">PhD, internship, or early career.</span></span>
+        <span class="where"><span class="placeholder-note">org</span></span>
+      </li>
+      <li>
+        <span class="when"><span class="placeholder-note">year</span></span>
+        <span class="what"><span class="placeholder-note">education</span><span class="sub">Degree and institution.</span></span>
+        <span class="where"><span class="placeholder-note">school</span></span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- FOUNDATION -->
+  <section class="section measure" id="foundation">
+    <p class="section-label">Paluri Foundation</p>
+    <p>
+      A small family foundation my wife and I run, focused on <span class="placeholder-note">mission area TBD</span>. We support <span class="placeholder-note">focus 1</span> and <span class="placeholder-note">focus 2</span>, and try to operate quietly &mdash; directly with the people doing the work.
+    </p>
+    <p>
+      <a href="https://palurifoundation.org">Learn more about the Foundation &rarr;</a>
+    </p>
+  </section>
+
+  <!-- ADVISING / SPEAKING -->
+  <section class="section measure" id="advising">
+    <p class="section-label">Advising &amp; speaking</p>
+    <p>
+      I take on a small number of advising and speaking engagements each year, with preference for work that pushes open AI research, helps early-career researchers, or meaningfully affects policy and practice. For inquiries, use <a href="#contact">the address below</a> &mdash; a one-line summary of what you have in mind goes a long way.
+    </p>
+  </section>
+
+  <!-- PHOTOGRAPHY / TRAVEL -->
+  <section class="section" id="travel">
+    <p class="section-label">Travel &amp; photography</p>
+    <p class="measure" style="margin-bottom: 22px;">
+      I travel often. A loose archive lives on <a href="http://www.flickr.com/photos/manoharpaluri/">Flickr</a>. A few moments below.
+    </p>
+    <div class="travel-grid">
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+      <div class="photo"><div class="photo-placeholder">photo · location</div></div>
+    </div>
+  </section>
+
+  <!-- PRESS KIT -->
+  <section class="section measure" id="presskit">
+    <p class="section-label">Press kit</p>
+    <div class="press">
+      <div class="thumb"><div class="portrait-placeholder">headshot</div></div>
+      <div>
+        <p class="title">For editors &amp; producers</p>
+        <p class="title-sub">Short bio, long bio, and a high-resolution headshot.</p>
+        <div class="downloads">
+          <a class="chip" href="#"><span class="dot"></span>Short bio (.txt) <span class="placeholder-note">TBD</span></a>
+          <a class="chip" href="#"><span class="dot"></span>Long bio (.txt) <span class="placeholder-note">TBD</span></a>
+          <a class="chip" href="#"><span class="dot"></span>Headshot (.jpg) <span class="placeholder-note">TBD</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section measure" id="contact">
+    <p class="section-label">Contact</p>
+    <p>
+      Best way to reach me is email. I read everything, though I can't promise a reply.
+    </p>
+    <p>
+      <a href="mailto:#"><span class="placeholder-note">email@TBD</span></a>
+      &nbsp;·&nbsp;
+      <a href="#"><span class="placeholder-note">@handle on X</span></a>
+      &nbsp;·&nbsp;
+      <a href="#"><span class="placeholder-note">LinkedIn</span></a>
+    </p>
+  </section>
+
+  <footer>
+    <div>© <span id="year"></span> Manohar Paluri</div>
+    <div><a href="#hero">Back to top &uarr;</a></div>
+  </footer>
+
+</div>
+
+<!-- ====================== TWEAKS ====================== -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+
+  <div class="label">Hero layout</div>
+  <div class="row" data-tweak="hero">
+    <button data-val="A">A · Portrait left</button>
+    <button data-val="B">B · Big name</button>
+    <button data-val="C">C · Magazine</button>
+  </div>
+
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Tweakable defaults (persisted by host) ----
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "hero": "A",
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  // Dark-theme variants for accents (lighter tint against dark bg)
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const state = { ...TWEAK_DEFAULTS };
+
+  function apply() {
+    const html = document.documentElement;
+    html.dataset.theme = state.theme;
+    html.dataset.font = state.font;
+    const palette = state.theme === "green" ? ACCENTS_DARK[state.accent] : ACCENTS[state.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.getElementById('hero').dataset.variant = state.hero;
+
+    // Reflect button pressed states
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === state[key]));
+      });
+    });
+  }
+
+  // Hook up buttons
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.val;
+        apply();
+        try {
+          window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*');
+        } catch {}
+      });
+    });
+  });
+
+  apply();
+
+  // ---- Tweak toggle protocol ----
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') {
+      document.getElementById('tweaks').setAttribute('data-open', 'true');
+    } else if (t === '__deactivate_edit_mode') {
+      document.getElementById('tweaks').setAttribute('data-open', 'false');
+    }
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+</script>
+
+</body>
+</html>
