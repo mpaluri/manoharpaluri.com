@@ -154,8 +154,8 @@ Placeholders are clearly marked so it's obvious what's real vs to-fill.
   .hero h1 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: var(--display-size);
-    line-height: 0.98;
+    font-size: clamp(32px, 4.2vw, 56px);
+    line-height: 1.05;
     letter-spacing: -0.015em;
     margin: 0 0 20px;
   }
@@ -172,12 +172,14 @@ Placeholders are clearly marked so it's obvious what's real vs to-fill.
   .hero .tagline-dots { display: inline-flex; gap: 6px; margin-left: 2px; }
   .hero .tagline-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-soft); opacity: .4; }
 
-  /* Hero variant A: portrait-left, bio-right */
-  .hero[data-variant="A"] { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
-  .hero[data-variant="A"] .portrait { aspect-ratio: 4/5; width: 100%; border-radius: 2px; overflow: hidden; }
+  /* Hero variant A: portrait on right, bio on left */
+  .hero[data-variant="A"] { display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start; }
+  .hero[data-variant="A"] .portrait { aspect-ratio: 4/5; width: 100%; border-radius: 2px; overflow: hidden; grid-column: 2; grid-row: 1; }
+  .hero[data-variant="A"] .hero-copy { grid-column: 1; grid-row: 1; }
   @media (max-width: 760px) {
-    .hero[data-variant="A"] { grid-template-columns: 1fr; }
-    .hero[data-variant="A"] .portrait { max-width: 240px; }
+    .hero[data-variant="A"] { grid-template-columns: 1fr; justify-items: start; }
+    .hero[data-variant="A"] .portrait { max-width: 260px; width: 60%; grid-column: 1; grid-row: 1; }
+    .hero[data-variant="A"] .hero-copy { grid-column: 1; grid-row: 2; }
   }
 
   /* Hero variant B: big name typographic, small portrait in corner */
@@ -350,11 +352,11 @@ Placeholders are clearly marked so it's obvious what's real vs to-fill.
   <!-- HERO -->
   <section class="hero" data-variant="A" id="hero">
     <div class="portrait">
-      <div class="portrait-placeholder">portrait &mdash; drop 4:5 photo</div>
+      <img src="assets/portrait.jpg" alt="Manohar Paluri portrait" style="width:100%;height:100%;object-fit:cover;display:block;" />
     </div>
     <div class="hero-copy">
-      <div class="eyebrow"><span>Palo Alto · VP, Meta</span></div>
-      <h1>Building <em>general intelligence</em> for people and agents.</h1>
+      <div class="eyebrow"><span>VP, Meta</span></div>
+      <h1>Pushing the frontier of <em>multimodal intelligence</em> &mdash; and democratizing it.</h1>
       <p class="kicker">Researcher, builder, and occasional traveler. I lead the Llama organization at Meta.</p>
       <p>
         I'm a VP at Meta and lead the Llama organization as part of our AI efforts. My group focuses on research to unlock general intelligence to enable Human and Agent interactions at scale &mdash; pushing the frontier and enabling developers inside Meta and across the ecosystem to build transformational experiences for billions of people.
@@ -556,7 +558,7 @@ Placeholders are clearly marked so it's obvious what's real vs to-fill.
       Best way to reach me is email. I read everything, though I can't promise a reply.
     </p>
     <p>
-      <a href="/cdn-cgi/l/email-protection#afcdcec3cec2cec1c0c7ceddefc8c2cec6c381ccc0c2"><span class="__cf_email__" data-cfemail="5032313c313d313e3f38312210373d31393c7e333f3d">[email&#160;protected]</span></a>
+      <a href="mailto:balamanohar@gmail.com">balamanohar@gmail.com</a>
       &nbsp;·&nbsp;
       <a href="https://x.com/manohar_paluri">X</a>
       &nbsp;·&nbsp;
@@ -605,7 +607,7 @@ Placeholders are clearly marked so it's obvious what's real vs to-fill.
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js" defer></script><script>
+<script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // ---- Tweakable defaults (persisted by host) ----
