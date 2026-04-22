@@ -1,0 +1,5 @@
+Manohar Paluri is a Vice President at Meta, where he leads the Media Applied Research organization within Meta SuperIntelligence Labs (MSL). His group focuses on multimodal understanding and generation — pushing the frontier of AI and shipping capabilities that are used by billions of people every day across Meta's family of apps.
+
+Manohar's Meta journey began as a research intern in 2012. Since then he has led work across computer vision, multimodal understanding, the Llama family of open models, and, most recently, frontier multimodal models. He cares deeply about balancing research ambition with product impact — minimizing what he calls the "graveyard of awesomeness" on the research side, and maximizing the value of innovation on the product side.
+
+Lately, he is most excited about building multimodal agents that help people create, collaborate, and connect. Outside of work, Manohar and his wife run the Paluri Foundation, a small family foundation. He lives in the Bay Area with his wife and two children.
