@@ -6,62 +6,221 @@
 <title>Timeline — Manohar Paluri</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles.css" />
+<style>
+  /* ---- Timeline-specific styles ---- */
+
+  /* Placeholder bar: still reads as "a bar", but dimmed + dotted so the eye knows it's a guess */
+  .punchcard .ph-bar {
+    color: color-mix(in oklab, var(--accent) 45%, var(--paper));
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--accent) 18%, transparent) 0 6px,
+      transparent 6px 8px
+    );
+    -webkit-background-clip: text;
+            background-clip: text;
+  }
+
+  /* Legend */
+  .tl-legend {
+    display: flex; flex-wrap: wrap; gap: 18px 28px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.02em;
+    margin: 4px 0 28px;
+  }
+  .tl-legend span { display: inline-flex; align-items: baseline; gap: 8px; }
+  .tl-legend .glyph {
+    color: var(--accent); font-weight: 600;
+    width: 14px; display: inline-block; text-align: center;
+  }
+
+  /* ---- Direction D: punch-card overview ---- */
+  .punchcard {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.75;
+    overflow-x: auto;
+    padding: 20px 18px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--accent-soft) 18%, var(--paper));
+  }
+  .punchcard table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  .punchcard td {
+    padding: 3px 0;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  .punchcard .yr {
+    color: var(--ink-soft);
+    width: 130px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    padding-right: 12px;
+  }
+  .punchcard .bar {
+    padding-right: 18px;
+    color: color-mix(in oklab, var(--accent) 72%, var(--ink) 10%);
+    letter-spacing: -1px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .punchcard .bar.life {
+    color: color-mix(in oklab, var(--ink-soft) 80%, var(--paper));
+  }
+  .punchcard .bar.faint {
+    color: var(--rule);
+  }
+  .punchcard tr.life td {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .punchcard tr.life .glyph {
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+  .punchcard tr.life .evt {
+    font-family: var(--font-display);
+    font-size: 13.5px;
+  }
+  .punchcard .glyph {
+    width: 22px; text-align: center;
+    color: var(--accent); font-weight: 600;
+  }
+  .punchcard .evt {
+    color: var(--ink);
+    padding-left: 6px;
+    white-space: normal;
+  }
+  .punchcard .evt .tag {
+    color: var(--ink-soft);
+    font-size: 11px;
+    margin-left: 8px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .punchcard .evt .ph {
+    color: var(--ink-soft);
+    border-bottom: 1px dashed var(--rule);
+    padding: 0 2px;
+  }
+  .punchcard .era-sep td {
+    padding-top: 10px;
+  }
+  .punchcard .era-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 44px 0 10px;
+    border-top: 1px solid var(--rule);
+  }
+  .punchcard tr:first-child .era-label {
+    padding-top: 2px;
+    border-top: 0;
+  }
+
+  @media (max-width: 640px) {
+    .punchcard { font-size: 11px; }
+  }
+</style>
 </head>
 <body>
 
 <div class="page">
 
   <div class="topbar">
-    <a class="mark" href="/">Manohar Paluri</a>
     <nav>
-      <a href="/writing/">Writing</a>
+      <a href="/">Home</a>
       <a href="/talks/">Talks</a>
-      <a href="/timeline/" aria-current="page">Timeline</a>
+      <a href="/writing/">Writing</a>
       <a href="/foundation/">Foundation</a>
+      <a href="/#presskit">Press</a>
+      <a href="/#socials">Socials</a>
+      <a href="/#contact">Contact</a>
     </nav>
   </div>
 
   <section class="subhero measure">
-    <h1><em>Timeline.</em></h1>
-    <p class="lede">A brief arc of roles, teams, and shipped work &mdash; from an internship at Meta in 2012 to leading Media Applied Research today.</p>
+    <h1>Timeline.</h1>
+    <p class="lede">Roles, results, relationships &amp; life moments in between &mdash; in reverse chronological order.</p>
   </section>
 
-  <hr class="rule" />
+  <!-- ================= OVERVIEW (punch-card) ================= -->
+  <section class="section measure" style="margin-top: 28px;">
+    <div class="tl-legend">
+      <span><span class="glyph">●</span> role</span>
+      <span><span class="glyph">◆</span> signature ship</span>
+      <span><span class="glyph">◇</span> education</span>
+      <span><span class="glyph">✦</span> life moment</span>
+    </div>
 
-  <section class="section measure">
-    <p class="section-label">Career</p>
-    <ol class="clean">
-      <li>
-        <span class="when">present</span>
-        <span class="what">VP, Media Applied Research<span class="sub">Meta SuperIntelligence Labs &mdash; multimodal understanding &amp; generation.</span></span>
-        <span class="where">Meta</span>
-      </li>
-      <li>
-        <span class="when"><span class="placeholder-note">year</span></span>
-        <span class="what"><span class="placeholder-note">prior role</span><span class="sub">Brief summary of scope &amp; impact.</span></span>
-        <span class="where"><span class="placeholder-note">team</span></span>
-      </li>
-      <li>
-        <span class="when"><span class="placeholder-note">year</span></span>
-        <span class="what"><span class="placeholder-note">earlier role</span><span class="sub">Computer vision era &mdash; fill in specifics.</span></span>
-        <span class="where"><span class="placeholder-note">team</span></span>
-      </li>
-      <li>
-        <span class="when">2012</span>
-        <span class="what">Research Intern<span class="sub">Where the Meta journey started.</span></span>
-        <span class="where">Meta</span>
-      </li>
-      <li>
-        <span class="when"><span class="placeholder-note">year</span></span>
-        <span class="what"><span class="placeholder-note">education</span><span class="sub">Degree and institution.</span></span>
-        <span class="where"><span class="placeholder-note">school</span></span>
-      </li>
-    </ol>
+    <div class="punchcard" aria-label="Career overview">
+<table>
+  <tr><td class="era-label" colspan="4">Frontier &mdash; MSL</td></tr>
+  <tr><td class="yr">Jul &rsquo;25 &mdash; now</td><td class="bar">███</td><td class="glyph">●</td><td class="evt">VP, Media Applied Research <span class="tag">Meta</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://ai.meta.com/blog/introducing-muse-spark-msl/"><strong>Muse Spark</strong></a> &middot; <a href="https://meta.ai"><strong>meta.ai</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">Llama &mdash; GenAI</td></tr>
+  <tr><td class="yr">Feb &rsquo;24 &mdash; Jul &rsquo;25</td><td class="bar">██████</td><td class="glyph">●</td><td class="evt">Vice President <span class="tag">Meta</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://ai.meta.com/blog/meta-llama-3/"><strong>Llama 3</strong></a> &middot; <a href="https://ai.meta.com/blog/meta-llama-3-1/"><strong>3.1</strong></a> &middot; <a href="https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/"><strong>3.2 / Connect &rsquo;24</strong></a> &middot; <a href="https://ai.meta.com/research/movie-gen/"><strong>MovieGen</strong></a> &middot; <a href="https://ai.meta.com/blog/llama-4-multimodal-intelligence/"><strong>Llama 4</strong></a></td></tr>
+  <tr><td class="yr">Feb &rsquo;23 &mdash; Feb &rsquo;24</td><td class="bar">████</td><td class="glyph">●</td><td class="evt">Senior Director &middot; Llama &amp; GenAI <span class="tag">Meta</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://ai.meta.com/blog/llama-2/"><strong>Llama 2</strong></a> &middot; <a href="https://ai.meta.com/research/publications/emu-enhancing-image-generation-models-using-photogenic-needles-in-a-haystack/"><strong>Emu</strong></a> &middot; <a href="https://ai.meta.com/blog/emu-text-to-video-generation-image-editing-research/"><strong>Emu Video / Edit</strong></a> &middot; <a href="https://www.meta.com/blog/connect-2023-quest-3-ai-ray-ban-smart-glasses-metaverse/?srsltid=AfmBOopGMUrrkfc1ZX-bWRRYgvQW7-4X6ESKFPEFiimy2d4NeM57Ln47"><strong>Connect &rsquo;23</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">Perception &amp; Language &mdash; FAIR Accel</td></tr>
+  <tr class="life"><td class="yr">2019 &middot; 2020</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Ved born (2019) &middot; Arini born (2020)</td></tr>
+  <tr><td class="yr">Jul &rsquo;21 &mdash; Feb &rsquo;23</td><td class="bar">██████</td><td class="glyph">●</td><td class="evt">Senior Director &middot; FAIR Accel <span class="tag">Meta</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://ai.meta.com/research/publications/ego4d-unscripted-first-person-video-from-around-the-world-and-a-benchmark-suite-for-egocentric-perception/"><strong>Ego4D</strong></a> &middot; <a href="https://ai.meta.com/blog/greater-creative-control-for-ai-image-generation/"><strong>Make-A-Scene</strong></a> &middot; <a href="https://ai.meta.com/blog/generative-ai-text-to-video/"><strong>Make-A-Video</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">Computer Vision &amp; Augmented Reality &mdash; AML, FAIAR</td></tr>
+  <tr class="life"><td class="yr">2017</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Got married to Ashwini</td></tr>
+  <tr><td class="yr">Jul &rsquo;18 &mdash; Jul &rsquo;21</td><td class="bar">████████████</td><td class="glyph">●</td><td class="evt">Director, AI <span class="tag">Facebook</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Tran_A_Closer_Look_CVPR_2018_paper.pdf"><strong>R(2+1)D</strong></a> &middot; <a href="https://arxiv.org/abs/1905.00546"><strong>Billion-scale SSL</strong></a> &middot; <a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Girdhar_Detect-and-Track_Efficient_Pose_CVPR_2018_paper.pdf"><strong>Detect-and-Track</strong></a> &middot; <a href="https://arxiv.org/abs/2002.02091"><strong>Self-supervised Overhead Imagery</strong></a> &middot; <a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Batra_Improved_Road_Connectivity_by_Joint_Learning_of_Orientation_and_Segmentation_CVPR_2019_paper.pdf"><strong>Road Connectivity</strong></a></td></tr>
+  <tr><td class="yr">Jul &rsquo;15 &mdash; Jul &rsquo;18</td><td class="bar">████████████</td><td class="glyph">●</td><td class="evt">Manager / Sr. Manager <span class="tag">Facebook</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://engineering.fb.com/2016/04/04/ios/under-the-hood-building-accessibility-tools-for-the-visually-impaired-on-facebook/"><strong>Automatic Alt Text</strong></a> &middot; <a href="https://engineering.fb.com/2018/05/02/ml-applications/advancing-state-of-the-art-image-recognition-with-deep-learning-on-hashtags/"><strong>WSL</strong></a> &middot; <a href="https://engineering.fb.com/2017/02/02/ml-applications/building-scalable-systems-to-understand-content/"><strong>Lumos</strong></a> &middot; <a href="https://engineering.fb.com/2016/11/08/android/delivering-real-time-ai-in-the-palm-of-your-hand/"><strong>Mobile Models / Caffe2Go</strong></a> &middot; <a href="https://ai.meta.com/blog/powered-by-ai-advancing-product-understanding-and-building-new-shopping-experiences/"><strong>Fashion</strong></a> &middot; <a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Huang_What_Makes_a_CVPR_2018_paper.pdf"><strong>What Makes a Video a Video</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">Computer Vision &mdash; FAIR</td></tr>
+  <tr class="life"><td class="yr">2013</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Joined Meta full time</td></tr>
+  <tr><td class="yr">Aug &rsquo;12 &mdash; Jul &rsquo;15</td><td class="bar">████████████</td><td class="glyph">●</td><td class="evt">Computer Vision Researcher / Engineer &middot; Founding member of FAIR (2013) <span class="tag">Facebook</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://arxiv.org/abs/1412.0767"><strong>C3D</strong></a> &middot; <a href="https://openaccess.thecvf.com/content_cvpr_2014/papers/Zhang_PANDA_Pose_Aligned_2014_CVPR_paper.pdf"><strong>PANDA</strong></a> &middot; <a href="https://arxiv.org/abs/1511.05939"><strong>Metric Learning</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">3D Maps &mdash; Google Intern</td></tr>
+  <tr><td class="yr">May &rsquo;12 &mdash; Aug &rsquo;12</td><td class="bar">█</td><td class="glyph">●</td><td class="evt">Research Intern <span class="tag">Google &middot; Seattle</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://earth.google.com/web/search/San+Francisco,+CA+city+hall/@37.7793347,-122.41835173,19.08942682a,270.9680857d,35y,-100.95519415h,52.50053276t,0r/data=CiwiJgokCQhTXDCg5UJAEd5toVK05EJAGZo3jPmbmV7AIV_lxpUwml7AQgIIAToDCgEwQgIIAEoNCP___________wEQAA?hl=en_US"><strong>3D Reconstruction &mdash; Google Maps</strong></a></td></tr>
+
+  <tr><td class="era-label" colspan="4">PhD &mdash; RIM</td></tr>
+  <tr class="life"><td class="yr">2009</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Joined Georgia Tech for PhD</td></tr>
+  <tr><td class="yr">Aug &rsquo;09 &mdash; Jun &rsquo;12</td><td class="bar">████████████</td><td class="glyph">◇</td><td class="evt">PhD (discontinued, MS completed) &middot; Computer Science <span class="tag">Georgia Tech</span></td></tr>
+  <tr><td class="yr"></td><td class="bar faint">&middot;</td><td class="glyph">◆</td><td class="evt"><a href="https://gtsam.org/"><strong>GTSAM</strong></a></td></tr>
+  <tr><td class="yr">May &rsquo;10 &mdash; Aug &rsquo;10</td><td class="bar">█</td><td class="glyph">●</td><td class="evt">Research Intern <span class="tag">IBM Watson Labs</span></td></tr>
+
+  <tr><td class="era-label" colspan="4">Sarnoff &mdash; Princeton &amp; India</td></tr>
+  <tr class="life"><td class="yr">2008</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Moved to Sarnoff Princeton &mdash; India → US</td></tr>
+  <tr class="life"><td class="yr">Jul &rsquo;07</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">First visit to the US</td></tr>
+  <tr><td class="yr">Dec &rsquo;08 &mdash; Aug &rsquo;09</td><td class="bar">███</td><td class="glyph">●</td><td class="evt">Associate Member, Tech Staff <span class="tag">Sarnoff Corp.</span></td></tr>
+  <tr><td class="yr">Jul &rsquo;06 &mdash; Dec &rsquo;08</td><td class="bar">██████████</td><td class="glyph">●</td><td class="evt">Member of Tech Staff <span class="tag">Sarnoff &middot; India</span></td></tr>
+
+  <tr><td class="era-label" colspan="4">B.Tech &mdash; IIIT Hyderabad</td></tr>
+  <tr class="life"><td class="yr">2006</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Moved to Bangalore</td></tr>
+  <tr><td class="yr">2002 &mdash; 2006</td><td class="bar">████████████████</td><td class="glyph">◇</td><td class="evt">B.Tech, Computer Science <span class="tag">IIIT Hyderabad</span></td></tr>
+
+  <tr><td class="era-label" colspan="4">High School &mdash; Guntur</td></tr>
+  <tr class="life"><td class="yr">2002</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Moved to Hyderabad</td></tr>
+  <tr><td class="yr">2000 &mdash; 2002</td><td class="bar">████████</td><td class="glyph">◇</td><td class="evt">High School &middot; Math, Physics, Chemistry <span class="tag">GSR College &middot; Guntur</span></td></tr>
+
+  <tr><td class="era-label" colspan="4">Schooling &mdash; Mumbai</td></tr>
+  <tr class="life"><td class="yr">2000</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Moved to Guntur</td></tr>
+  <tr><td class="yr">1996 &mdash; 2000</td><td class="bar">████████████████</td><td class="glyph">◇</td><td class="evt">Middle School <span class="tag">Shree Rang Vidhyalaya</span></td></tr>
+  <tr><td class="yr">1991 &mdash; 1995</td><td class="bar">████████████████</td><td class="glyph">◇</td><td class="evt">Primary School <span class="tag">Shree Rang Vidhyalaya</span></td></tr>
+  <tr class="life"><td class="yr">1991</td><td class="bar faint">&middot;</td><td class="glyph">✦</td><td class="evt">Moved to Mumbai</td></tr>
+</table>
+    </div>
   </section>
 
-  <section class="section measure">
+  <section class="section measure" style="margin-top: 56px;">
     <a href="/" style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft);">&larr; Back to home</a>
   </section>
 
@@ -72,6 +231,84 @@
 
 </div>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- TWEAKS -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const state = { ...TWEAK_DEFAULTS };
+  function apply() {
+    const html = document.documentElement;
+    html.dataset.theme = state.theme;
+    html.dataset.font = state.font;
+    const palette = state.theme === "green" ? ACCENTS_DARK[state.accent] : ACCENTS[state.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === state[key]));
+      });
+    });
+  }
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.val;
+        apply();
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*'); } catch {}
+      });
+    });
+  });
+  apply();
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'true');
+    else if (t === '__deactivate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'false');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+</script>
 </body>
 </html>
