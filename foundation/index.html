@@ -8,51 +8,135 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles.css" />
+<style>
+  .pf-photo {
+    margin: 28px 0 8px;
+  }
+  .pf-photo img {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    display: block;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .pf-photo figcaption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+  .pf-pull {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 18px;
+    margin: 8px 0 0;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 60ch;
+  }
+  .pf-pull cite {
+    display: block;
+    margin-top: 10px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pf-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px 28px;
+    margin: 16px 0 0;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .pf-stat .num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .pf-stat .lbl {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+</style>
 </head>
 <body>
 
 <div class="page">
 
   <div class="topbar">
-    <a class="mark" href="/">Manohar Paluri</a>
     <nav>
-      <a href="/writing/">Writing</a>
-      <a href="/talks/">Talks</a>
       <a href="/timeline/">Timeline</a>
+      <a href="/projects/">Projects</a>
+      <a href="/talks/">Talks</a>
+      <a href="/writing/">Writing</a>
       <a href="/foundation/" aria-current="page">Foundation</a>
+      <a href="/#presskit">Press</a>
+      <a href="/#socials">Socials</a>
+      <a href="/#contact">Contact</a>
     </nav>
   </div>
 
   <section class="subhero measure">
     <h1>The <em>Paluri Foundation.</em></h1>
-    <p class="lede">A small family foundation my wife and I run, focused on <span class="placeholder-note">mission area TBD</span> &mdash; operating quietly, directly with the people doing the work.</p>
+    <p class="lede">A small family foundation my wife <strong>Ashwini</strong> and I started in <strong>2020</strong> &mdash; partnering with the brightest minds on the hardest social problems, to create equal opportunity.</p>
   </section>
 
   <hr class="rule" />
 
   <section class="section measure">
-    <p class="section-label">About</p>
-    <p>
-      <span class="placeholder-note">One or two sentences on why we started the Foundation</span> &mdash; the belief that motivated it and how we think about impact.
-    </p>
-    <p>
-      We favor small, focused commitments with partners we know and trust. We don't currently accept unsolicited proposals outside our program areas.
-    </p>
+    <figure class="pf-photo">
+      <img src="https://blogs.iiit.ac.in/wp-content/uploads/2025/03/Manohar_Paluri-1.jpg" alt="Manohar and Ashwini Paluri" />
+      <figcaption>Paluri family</figcaption>
+    </figure>
   </section>
 
   <section class="section measure">
-    <p class="section-label">Focus areas</p>
+    <p class="section-label">Why we started it</p>
+    <p>
+      We started the Foundation in 2020, in the throes of the pandemic. When the world was struggling and adapting, Ashwini and I realized how fortunate we were to have a stable life and good health &mdash; and that life is unpredictable enough that &ldquo;later&rdquo; isn&rsquo;t guaranteed.
+    </p>
+    <p>
+      Both of us come from families that weren&rsquo;t affluent. Our parents made real sacrifices so we could get the best education they could find. The Foundation is our way of paying that forward &mdash; a platform for mindful citizens to extend either financial support or personal time to causes that matter.
+    </p>
+    <blockquote class="pf-pull">
+      &ldquo;Paluri Foundation is our avenue to pour our energy towards better outcomes for more people.&rdquo;
+    </blockquote>
+  </section>
+
+  <section class="section measure">
+    <p class="section-label">What we focus on</p>
+    <p>
+      We back partners using technology and rigorous research to take on hard, structural problems &mdash; the ones where smart investment compounds. We favor small, focused commitments with people we know and trust.
+    </p>
     <ul class="bullets">
-      <li><span class="placeholder-note">focus area 1</span> &mdash; short description.</li>
-      <li><span class="placeholder-note">focus area 2</span> &mdash; short description.</li>
-      <li><span class="placeholder-note">focus area 3</span> &mdash; short description.</li>
+      <li><strong>Education.</strong> Our first partnership &mdash; supporting <a href="https://www.pratham.org/">Pratham</a>, where Ashwini is now a board member of the SF Bay Area chapter.</li>
+      <li><strong>Poverty &amp; livelihoods.</strong> Supporting <a href="https://www.thenudge.org/">The Nudge Institute</a> on its work to eradicate poverty &mdash; we&rsquo;ve also hosted Nudge events at Meta to bring more supporters into the fold.</li>
+      <li><strong>Research &amp; innovation.</strong> A <strong>₹1 crore</strong> pledge to <a href="https://www.iiit.ac.in/">IIIT Hyderabad</a> &mdash; the institute that got me into AI &mdash; toward the new Education Block, plus help setting up a match-funding mechanism with technology companies that doubled donations through that channel.</li>
     </ul>
   </section>
 
   <section class="section measure">
-    <p class="section-label">More</p>
+    <p class="section-label">How we operate</p>
     <p>
-      The Foundation has its own home at <a href="https://palurifoundation.org">palurifoundation.org</a> with programs, timeline, and contact details.
+      The Foundation runs quietly &mdash; directly with the people doing the work, not through intermediaries. We don&rsquo;t currently accept unsolicited proposals outside our existing program areas.
     </p>
   </section>
 
@@ -62,11 +146,89 @@
 
   <footer>
     <div>© <span id="year"></span> Manohar Paluri</div>
-    <div><a href="https://palurifoundation.org">palurifoundation.org &rarr;</a></div>
+    <div><a href="https://blogs.iiit.ac.in/manohar-paluri/">Read the IIITH alumni profile &rarr;</a></div>
   </footer>
 
 </div>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- TWEAKS -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const state = { ...TWEAK_DEFAULTS };
+  function apply() {
+    const html = document.documentElement;
+    html.dataset.theme = state.theme;
+    html.dataset.font = state.font;
+    const palette = state.theme === "green" ? ACCENTS_DARK[state.accent] : ACCENTS[state.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === state[key]));
+      });
+    });
+  }
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.val;
+        apply();
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*'); } catch {}
+      });
+    });
+  });
+  apply();
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'true');
+    else if (t === '__deactivate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'false');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+</script>
 </body>
 </html>

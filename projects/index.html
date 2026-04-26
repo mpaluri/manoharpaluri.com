@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Projects — Manohar Paluri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  /* ---- Projects-specific styles (mirrors Timeline punch-card) ---- */
+  .pj-legend {
+    display: flex; flex-wrap: wrap; gap: 18px 28px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.02em;
+    margin: 4px 0 28px;
+  }
+  .pj-legend span { display: inline-flex; align-items: baseline; gap: 8px; }
+  .pj-legend .glyph {
+    color: var(--accent); font-weight: 600;
+    width: 14px; display: inline-block; text-align: center;
+  }
+
+  .projects {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.75;
+    overflow-x: auto;
+    padding: 20px 18px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--accent-soft) 18%, var(--paper));
+  }
+  .projects table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  .projects td {
+    padding: 4px 0;
+    vertical-align: baseline;
+  }
+  .projects tr.proj + tr.proj td {
+    border-top: 1px dashed color-mix(in oklab, var(--rule) 80%, transparent);
+    padding-top: 14px;
+  }
+  .projects tr.proj td { padding-bottom: 14px; }
+  .projects .yr {
+    color: var(--ink-soft);
+    width: 100px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    padding-right: 12px;
+    white-space: nowrap;
+  }
+  .projects .glyph {
+    width: 22px; text-align: center;
+    color: var(--accent); font-weight: 600;
+  }
+  .projects .evt {
+    color: var(--ink);
+    padding-left: 6px;
+  }
+  .projects .evt .name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .projects .evt .name a { text-decoration: none; color: var(--ink); border-bottom: 1px solid color-mix(in oklab, var(--ink) 25%, transparent); }
+  .projects .evt .name a:hover { color: var(--accent); border-color: var(--accent); }
+  .projects .evt .sub {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+  .projects .evt .links {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .projects .evt .links a { color: var(--accent); text-decoration: none; }
+  .projects .evt .links a:hover { text-decoration: underline; }
+  .projects .evt .tag {
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-left: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .projects .era-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 44px 0 10px;
+    border-top: 1px solid var(--rule);
+  }
+  .projects tr:first-child .era-label {
+    padding-top: 2px;
+    border-top: 0;
+  }
+  .projects .row-spacer td { padding: 6px 0; }
+
+  @media (max-width: 640px) {
+    .projects { font-size: 11px; }
+    .projects .evt .name { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="topbar">
+    <nav>
+      <a href="/timeline/">Timeline</a>
+      <a href="/projects/" aria-current="page">Projects</a>
+      <a href="/talks/">Talks</a>
+      <a href="/writing/">Writing</a>
+      <a href="/foundation/">Foundation</a>
+      <a href="/#presskit">Press</a>
+      <a href="/#socials">Socials</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+
+  <section class="subhero measure">
+    <h1>Projects.</h1>
+    <p class="lede">Selected ships across two decades &mdash; vision platforms, foundation models, generative media, and the products they powered.</p>
+  </section>
+
+  <section class="section measure" style="margin-top: 28px;">
+    <div class="pj-legend">
+      <span><span class="glyph">◆</span> shipped</span>
+      <span><span class="glyph">▲</span> research</span>
+      <span><span class="glyph">●</span> platform</span>
+    </div>
+
+    <div class="projects" aria-label="Selected projects">
+<table>
+  <tr><td class="era-label" colspan="3">Frontier &mdash; MSL</td></tr>
+
+  <tr class="proj"><td class="yr">2025</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/introducing-muse-spark-msl/">Muse Spark</a></span><span class="tag">Meta MSL</span>
+    <span class="sub">First public ship from Meta SuperIntelligence Labs &mdash; multimodal generation for everyone, debuting the new lab&rsquo;s point of view on creative AI.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2025</td><td class="glyph">●</td><td class="evt">
+    <span class="name"><a href="https://meta.ai">meta.ai</a></span><span class="tag">Meta</span>
+    <span class="sub">Meta&rsquo;s consumer AI assistant &mdash; multimodal across web, mobile, and the family of apps, reaching billions of users.</span>
+  </td></tr>
+
+  <tr><td class="era-label" colspan="3">Llama &mdash; GenAI</td></tr>
+
+  <tr class="proj"><td class="yr">2025</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/llama-4-multimodal-intelligence/">Llama 4</a></span><span class="tag">Meta</span>
+    <span class="sub">Natively multimodal frontier model family &mdash; mixture-of-experts at open-weights scale, the strongest Llama yet.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2024</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/research/movie-gen/">MovieGen</a></span><span class="tag">Meta</span>
+    <span class="sub">A cast of foundation models for high-quality video, audio and editing &mdash; one of the most ambitious generative-media programs of the year.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2024</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/">Llama 3.2 / Connect &rsquo;24</a></span><span class="tag">Meta</span>
+    <span class="sub">Vision-language Llama plus on-device variants &mdash; pushed open-weights multimodal to phones and edge.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2024</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/meta-llama-3-1/">Llama 3.1</a></span><span class="tag">Meta</span>
+    <span class="sub">405B open-weights flagship &mdash; the first time an open model competed at the absolute frontier.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2024</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/meta-llama-3/">Llama 3</a></span><span class="tag">Meta</span>
+    <span class="sub">The 8B / 70B that re-anchored the open-weights ecosystem and powered Meta AI&rsquo;s first global rollout.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2023</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/llama-2/">Llama 2</a></span><span class="tag">Meta</span>
+    <span class="sub">Open-weights LLM that anchored an ecosystem &mdash; the model that made &ldquo;open frontier&rdquo; a real category.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2023</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/research/publications/emu-enhancing-image-generation-models-using-photogenic-needles-in-a-haystack/">Emu</a></span><span class="tag">Meta</span>
+    <span class="sub">Image foundation model behind Meta&rsquo;s generative stack &mdash; the &ldquo;photogenic needles in a haystack&rdquo; recipe for quality at scale.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2023</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/emu-text-to-video-generation-image-editing-research/">Emu Video / Emu Edit</a></span><span class="tag">Meta</span>
+    <span class="sub">Text-to-video and instruction-based image editing on the Emu foundation &mdash; the research powering AI features across the family of apps.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2023</td><td class="glyph">●</td><td class="evt">
+    <span class="name"><a href="https://www.meta.com/blog/connect-2023-quest-3-ai-ray-ban-smart-glasses-metaverse/">Connect &rsquo;23</a></span><span class="tag">Meta</span>
+    <span class="sub">Meta AI assistant, AI Studio, generative imagery and Ray-Ban smart-glasses AI &mdash; first public surfaces of the GenAI org&rsquo;s work.</span>
+  </td></tr>
+
+  <tr><td class="era-label" colspan="3">Perception &amp; Language &mdash; FAIR Accel</td></tr>
+
+  <tr class="proj"><td class="yr">2022</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/generative-ai-text-to-video/">Make-A-Video</a></span><span class="tag">FAIR</span>
+    <span class="sub">First text-to-video system at Meta &mdash; one of the earliest demonstrations of the modality, ahead of the public wave.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2022</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/greater-creative-control-for-ai-image-generation/">Make-A-Scene</a></span><span class="tag">FAIR</span>
+    <span class="sub">Text-and-sketch image generation &mdash; controllability as a first-class generative primitive, not an afterthought.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2021</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/research/publications/ego4d-unscripted-first-person-video-from-around-the-world-and-a-benchmark-suite-for-egocentric-perception/">Ego4D</a></span><span class="tag">FAIR &middot; consortium</span>
+    <span class="sub">3,000+ hours of first-person video and a benchmark suite &mdash; opened up egocentric perception as a research field.</span>
+  </td></tr>
+
+  <tr><td class="era-label" colspan="3">Computer Vision &amp; AR &mdash; AML, FAIAR</td></tr>
+
+  <tr class="proj"><td class="yr">2020</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://arxiv.org/abs/2002.02091">Self-supervised Overhead Imagery</a></span><span class="tag">arXiv</span>
+    <span class="sub">Self-supervised pretraining on satellite imagery &mdash; learning useful representations without map labels, for downstream geospatial tasks.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2019</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Batra_Improved_Road_Connectivity_by_Joint_Learning_of_Orientation_and_Segmentation_CVPR_2019_paper.pdf">Road Connectivity</a></span><span class="tag">CVPR &rsquo;19</span>
+    <span class="sub">Joint orientation &amp; segmentation for road extraction from satellite imagery &mdash; the mapping work behind Daylight.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2019</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://arxiv.org/abs/1905.00546">Billion-scale SSL</a></span><span class="tag">FAIR / AML</span>
+    <span class="sub">Semi-supervised learning at billion-image scale &mdash; demonstrating data scale as the lever for vision pretraining.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2018</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Tran_A_Closer_Look_CVPR_2018_paper.pdf">R(2+1)D</a></span><span class="tag">CVPR &rsquo;18</span>
+    <span class="sub">Spatiotemporal convolutions for action recognition &mdash; the standard video-CNN factorization for years after.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2018</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Girdhar_Detect-and-Track_Efficient_Pose_CVPR_2018_paper.pdf">Detect-and-Track</a></span><span class="tag">CVPR &rsquo;18</span>
+    <span class="sub">Efficient pose estimation in videos &mdash; tracking and detection as a single learned operator.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2018</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Huang_What_Makes_a_CVPR_2018_paper.pdf">What Makes a Video a Video</a></span><span class="tag">CVPR &rsquo;18</span>
+    <span class="sub">Probing what temporal information video models actually use &mdash; an honest look at when motion really matters.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2018</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://engineering.fb.com/2018/05/02/ml-applications/advancing-state-of-the-art-image-recognition-with-deep-learning-on-hashtags/">WSL &mdash; Hashtag pretraining</a></span><span class="tag">Facebook</span>
+    <span class="sub">Weakly-supervised pretraining on 3.5B hashtagged images &mdash; SoTA ImageNet at the time, all from real-world signal.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2018</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://ai.meta.com/blog/powered-by-ai-advancing-product-understanding-and-building-new-shopping-experiences/">Fashion / Product Understanding</a></span><span class="tag">Facebook</span>
+    <span class="sub">Visual product understanding powering shopping experiences &mdash; fine-grained recognition deployed at platform scale.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2017</td><td class="glyph">●</td><td class="evt">
+    <span class="name"><a href="https://engineering.fb.com/2017/02/02/ml-applications/building-scalable-systems-to-understand-content/">Lumos</a></span><span class="tag">Facebook</span>
+    <span class="sub">The platform that put visual understanding behind hundreds of products at Facebook scale.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2016</td><td class="glyph">●</td><td class="evt">
+    <span class="name"><a href="https://engineering.fb.com/2016/11/08/android/delivering-real-time-ai-in-the-palm-of-your-hand/">Caffe2Go &mdash; mobile models</a></span><span class="tag">Facebook</span>
+    <span class="sub">On-device deep learning for mobile &mdash; the runtime that made real-time AI features practical on phones.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2016</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><a href="https://engineering.fb.com/2016/04/04/ios/under-the-hood-building-accessibility-tools-for-the-visually-impaired-on-facebook/">Automatic Alt Text</a></span><span class="tag">Facebook</span>
+    <span class="sub">First-of-its-kind accessibility feature &mdash; AI-generated descriptions of every image, for screen readers, at platform scale.</span>
+  </td></tr>
+
+  <tr><td class="era-label" colspan="3">Computer Vision &mdash; FAIR</td></tr>
+
+  <tr class="proj"><td class="yr">2015</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://arxiv.org/abs/1511.05939">Metric Learning with Adaptive Density Discrimination</a></span><span class="tag">ICLR &rsquo;16</span>
+    <span class="sub">A density-aware approach to deep metric learning &mdash; better embeddings without explicit class labels.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2014</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://arxiv.org/abs/1412.0767">C3D &mdash; Learning Spatiotemporal Features</a></span><span class="tag">ICCV &rsquo;15</span>
+    <span class="sub">3D ConvNets for video &mdash; the foundational architecture for early deep video understanding.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2014</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://openaccess.thecvf.com/content_cvpr_2014/papers/Zhang_PANDA_Pose_Aligned_2014_CVPR_paper.pdf">PANDA</a></span><span class="tag">CVPR &rsquo;14</span>
+    <span class="sub">Pose-aligned networks for deep attribute modeling &mdash; one of the first deep approaches to fine-grained person attributes.</span>
+  </td></tr>
+
+  <tr><td class="era-label" colspan="3">Earlier</td></tr>
+
+  <tr class="proj"><td class="yr">2012</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://earth.google.com/web/search/San+Francisco,+CA+city+hall/@37.7793347,-122.41835173,19.08942682a,270.9680857d,35y,-100.95519415h,52.50053276t,0r/data=CiwiJgokCQhTXDCg5UJAEd5toVK05EJAGZo3jPmbmV7AIV_lxpUwml7AQgIIAToDCgEwQgIIAEoNCP___________wEQAA?hl=en_US">3D Reconstruction &mdash; Google Maps</a></span><span class="tag">Google &middot; intern</span>
+    <span class="sub">Aerial-imagery 3D reconstruction contributing to Google Earth city-scale models &mdash; SF City Hall among them.</span>
+  </td></tr>
+  <tr class="proj"><td class="yr">2011</td><td class="glyph">▲</td><td class="evt">
+    <span class="name"><a href="https://gtsam.org/">GTSAM</a></span><span class="tag">Georgia Tech</span>
+    <span class="sub">Factor-graph SLAM library &mdash; contributions during PhD research with Frank Dellaert&rsquo;s group.</span>
+  </td></tr>
+</table>
+    </div>
+
+  </section>
+
+  <section class="section measure" style="margin-top: 56px;">
+    <a href="/" style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft);">&larr; Back to home</a>
+  </section>
+
+  <footer>
+    <div>© <span id="year"></span> Manohar Paluri</div>
+    <div><a href="/">manoharpaluri.com &rarr;</a></div>
+  </footer>
+
+</div>
+
+</div>
+
+<!-- TWEAKS -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const state = { ...TWEAK_DEFAULTS };
+  function apply() {
+    const html = document.documentElement;
+    html.dataset.theme = state.theme;
+    html.dataset.font = state.font;
+    const palette = state.theme === "green" ? ACCENTS_DARK[state.accent] : ACCENTS[state.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === state[key]));
+      });
+    });
+  }
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.val;
+        apply();
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*'); } catch {}
+      });
+    });
+  });
+  apply();
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'true');
+    else if (t === '__deactivate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'false');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+</script>
+</body>
+</html>
