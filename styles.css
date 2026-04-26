@@ -86,8 +86,9 @@ hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 64px 0 0; }
 }
 .topbar .mark { color: var(--ink); font-weight: 500; text-decoration: none; }
 .topbar .mark:hover { color: var(--accent); }
-.topbar nav a { margin-right: 18px; margin-left: 0; text-decoration: none; color: var(--ink-soft); }
-.topbar nav a:hover, .topbar nav a[aria-current="page"] { color: var(--accent); }
+.topbar nav { display: flex; gap: 18px; }
+.topbar nav a, .topbar nav span { text-decoration: none; color: var(--ink-soft); }
+.topbar nav a:hover, .topbar nav a[aria-current="page"], .topbar nav span[aria-current="page"] { color: var(--accent); }
 
 /* ---- Hero (home) ---- */
 .hero { margin-top: 56px; }
