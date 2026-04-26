@@ -8,6 +8,37 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles.css?v=2" />
+<style>
+  .coming-soon {
+    padding: 80px 0 64px;
+    text-align: left;
+  }
+  .coming-soon .stamp {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .coming-soon h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(64px, 9vw, 128px);
+    line-height: 0.95;
+    margin: 0 0 28px;
+    letter-spacing: -0.02em;
+  }
+  .coming-soon p {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    margin: 0;
+  }
+</style>
 </head>
 <body>
 
@@ -27,37 +58,12 @@
     </nav>
   </div>
 
-  <section class="subhero measure">
-    <h1><em>Writing.</em></h1>
-    <p class="lede">Short pieces on AI, research, and the craft of building &mdash; mostly thinking-out-loud.</p>
+  <section class="coming-soon measure">
+    <h1><em>Coming soon.</em></h1>
+    <p>For now writing new skills in Claude, will share more soon. In the meantime, you can see where I&rsquo;m spending time &mdash; <a href="https://github.com/mpaluri/research-paper-summaries" target="_blank" rel="noopener">research summaries of papers &rarr;</a></p>
   </section>
 
   <hr class="rule" />
-
-  <section class="section measure">
-    <p class="section-label">Essays &amp; notes</p>
-    <ul class="clean">
-      <li>
-        <span class="when">&mdash;</span>
-        <span class="what">
-          <span class="placeholder-note">first post title</span>
-          <span class="sub">A short dek. Add real posts here when you're ready.</span>
-        </span>
-        <span class="where">essay</span>
-      </li>
-      <li>
-        <span class="when">&mdash;</span>
-        <span class="what">
-          <span class="placeholder-note">second post title</span>
-          <span class="sub">Another placeholder &mdash; swap or remove.</span>
-        </span>
-        <span class="where">note</span>
-      </li>
-    </ul>
-    <p style="margin-top: 28px; color: var(--ink-soft);">
-      Posts will appear here as I write them. If you'd like to follow along, the best places are <a href="https://x.com/manohar_paluri">X</a> and <a href="https://www.linkedin.com/in/balamanohar/">LinkedIn</a>.
-    </p>
-  </section>
 
   <section class="section measure">
     <a href="/" style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft);">&larr; Back to home</a>
@@ -70,6 +76,84 @@
 
 </div>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- TWEAKS -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const state = { ...TWEAK_DEFAULTS };
+  function apply() {
+    const html = document.documentElement;
+    html.dataset.theme = state.theme;
+    html.dataset.font = state.font;
+    const palette = state.theme === "green" ? ACCENTS_DARK[state.accent] : ACCENTS[state.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === state[key]));
+      });
+    });
+  }
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.val;
+        apply();
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*'); } catch {}
+      });
+    });
+  });
+  apply();
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'true');
+    else if (t === '__deactivate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'false');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+</script>
 </body>
 </html>
