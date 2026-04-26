@@ -6,8 +6,259 @@
 <title>Talks & media — Manohar Paluri</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles.css?v=2" />
+<style>
+  /* ---- Talks: same monospace-table feel as Projects/Timeline ---- */
+  .tk-legend {
+    display: flex; flex-wrap: wrap; gap: 18px 28px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.02em;
+    margin: 4px 0 28px;
+  }
+  .tk-legend span { display: inline-flex; align-items: baseline; gap: 8px; }
+  .tk-legend .glyph {
+    color: var(--accent); font-weight: 600;
+    width: 14px; display: inline-block; text-align: center;
+  }
+
+  .talks {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.75;
+    overflow-x: auto;
+    padding: 20px 18px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--accent-soft) 18%, var(--paper));
+  }
+  .talks table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  .talks td {
+    padding: 4px 0;
+    vertical-align: baseline;
+  }
+
+  /* row separators (same dashed rule as projects) */
+  .talks tr.tk + tr.tk td,
+  .talks tr.tk + tr.exp + tr.tk td {
+    border-top: 1px dashed color-mix(in oklab, var(--rule) 80%, transparent);
+    padding-top: 14px;
+  }
+  .talks tr.tk td { padding-bottom: 14px; }
+  .talks tr.tk.open td { padding-bottom: 6px; }
+
+  .talks .yr {
+    color: var(--ink-soft);
+    width: 100px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    padding-right: 12px;
+    white-space: nowrap;
+  }
+  .talks .glyph {
+    width: 22px; text-align: center;
+    color: var(--accent); font-weight: 600;
+  }
+  .talks .evt {
+    color: var(--ink);
+    padding-left: 6px;
+  }
+  .talks .evt .name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .talks .evt .name .titlebtn {
+    background: none; border: 0; padding: 0;
+    font: inherit; color: inherit;
+    text-align: left; cursor: pointer;
+    border-bottom: 1px solid color-mix(in oklab, var(--ink) 25%, transparent);
+    transition: color .15s, border-color .15s;
+  }
+  .talks .evt .name .titlebtn:hover { color: var(--accent); border-color: var(--accent); }
+
+  .talks .evt .tag {
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-left: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .talks .evt .sub {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+  .talks .evt .meta {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .talks .evt .meta .dot { margin: 0 8px; opacity: .5; }
+  .talks .evt .chev {
+    display: inline-block;
+    margin-left: 10px;
+    color: var(--ink-soft);
+    font-size: 11px;
+    transition: transform .2s;
+  }
+  .talks tr.tk.open .chev { transform: rotate(90deg); color: var(--accent); }
+
+  /* era labels */
+  .talks .era-label {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    padding: 48px 0 14px;
+    border-top: 1px solid var(--rule);
+    font-variant-numeric: tabular-nums;
+  }
+  .talks tr:first-child .era-label {
+    padding-top: 2px;
+    border-top: 0;
+  }
+
+  /* Expansion row */
+  .talks tr.exp > td {
+    padding: 0 0 18px;
+  }
+  .talks tr.exp .exp-inner {
+    display: grid;
+    grid-template-columns: 122px 1fr;   /* aligns with yr+glyph cols */
+    gap: 0;
+    padding-top: 4px;
+  }
+  .talks tr.exp .exp-pad { }
+  .talks tr.exp .exp-body {
+    padding-left: 6px;
+    max-width: 720px;
+  }
+
+  /* Embeds */
+  .embed-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+    background: #000;
+    margin-top: 4px;
+  }
+  .embed-frame iframe {
+    width: 100%; height: 100%; border: 0; display: block;
+  }
+  .embed-audio {
+    width: 100%;
+    margin-top: 4px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .embed-audio iframe { width: 100%; border: 0; display: block; }
+
+  /* tldr block for articles */
+  .exp-tldr {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0 0 10px;
+    text-wrap: pretty;
+  }
+  .exp-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    margin: 6px 0 12px;
+    max-width: 56ch;
+  }
+  .exp-links {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+  .exp-links a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+  .exp-links a:hover { border-color: var(--accent); }
+  .exp-links .dot { margin: 0 10px; opacity: .5; }
+
+  /* hidden state — collapse the expansion row to zero height */
+  .talks tr.exp[hidden] { display: none; }
+
+  /* Inquiries footer block */
+  .tk-inq {
+    margin-top: 56px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 640px) { .tk-inq { grid-template-columns: 1fr; } }
+  .tk-inq .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  .tk-inq p {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 6px;
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+  .tk-inq a.cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 2px;
+    white-space: nowrap;
+    transition: background .15s, color .15s;
+  }
+  .tk-inq a.cta:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  @media (max-width: 640px) {
+    .talks { font-size: 11px; }
+    .talks .evt .name { font-size: 15px; }
+    .talks tr.exp .exp-inner { grid-template-columns: 1fr; }
+    .talks tr.exp .exp-pad { display: none; }
+    .talks tr.exp .exp-body { padding-left: 0; }
+  }
+</style>
 </head>
 <body>
 
@@ -28,56 +279,289 @@
   </div>
 
   <section class="subhero measure">
-    <h1><em>Talks &amp; media.</em></h1>
-    <p class="lede">Keynotes, podcasts, and interviews &mdash; a loose archive of conversations I've found worth sharing.</p>
-  </section>
-
-  <hr class="rule" />
-
-  <section class="section measure">
-    <p class="section-label">Recent</p>
-    <ul class="clean">
-      <li>
-        <span class="when">2025</span>
-        <span class="what">
-          <span class="placeholder-note">podcast / keynote title</span>
-          <span class="sub">Brief context &mdash; what we talked about.</span>
-        </span>
-        <span class="where"><span class="placeholder-note">venue</span></span>
-      </li>
-      <li>
-        <span class="when">2025</span>
-        <span class="what">
-          <span class="placeholder-note">interview title</span>
-          <span class="sub">Publication or show name.</span>
-        </span>
-        <span class="where"><span class="placeholder-note">venue</span></span>
-      </li>
-      <li>
-        <span class="when">2024</span>
-        <span class="what">
-          <span class="placeholder-note">keynote / panel</span>
-          <span class="sub">Conference or event.</span>
-        </span>
-        <span class="where"><span class="placeholder-note">venue</span></span>
-      </li>
-    </ul>
-    <p style="margin-top: 28px; color: var(--ink-soft);">
-      For speaking or podcast invitations, email <a href="mailto:balamanohar@gmail.com">balamanohar@gmail.com</a> with a one-line summary of what you have in mind.
+    <h1>Talks &amp; <em>media.</em></h1>
+    <p class="lede">
+      Keynotes, interviews, podcasts and panels &mdash; mostly on AI research,
+      open models, Tech&rsquo;s opportunity, and what it takes to ship at billion scale.
+      Click a row to play or read.
     </p>
   </section>
 
-  <section class="section measure">
-    <a href="/" style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft);">&larr; Back to home</a>
+  <section class="section">
+    <div class="tk-legend">
+      <span><span class="glyph">▶</span> Talk / keynote</span>
+      <span><span class="glyph">◉</span> Podcast</span>
+      <span><span class="glyph">◆</span> Panel</span>
+      <span><span class="glyph">✎</span> Article / interview</span>
+    </div>
+
+    <div class="talks" aria-label="Talks and media appearances">
+<table>
+  <tbody id="tk-tbody">
+  <tr><td class="era-label" colspan="3">2025</td></tr>
+
+  <tr class="tk" data-id="t1" data-kind="talk"><td class="yr">2025</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">LlamaCon &mdash; opening keynote</button></span><span class="tag">Meta · LlamaCon</span>
+    <span class="meta">Keynote <span class="dot">·</span> with Chris Cox &amp; Angela Fan <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t1" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">Meta&rsquo;s first AI developer event. Opening keynote with CPO Chris Cox and research scientist Angela Fan &mdash; Llama 4, the developer ecosystem, and what comes next for open models.</p>
+    <div class="embed-frame" data-yt="6mRP-lQs0fw"></div>
+    <p class="exp-links"><a href="https://www.llama.com/resources/videos/llamacon-2025-keynote/" target="_blank" rel="noopener">Watch on llama.com ↗</a><span class="dot">·</span><a href="https://www.youtube.com/watch?v=6mRP-lQs0fw" target="_blank" rel="noopener">YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t2" data-kind="talk"><td class="yr">2025</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">AI &mdash; the new grammar of innovation</button></span><span class="tag">LeapStart Orientation</span>
+    <span class="meta">Keynote address <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t2" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">Address to LeapStart&rsquo;s 2025 cohort &mdash; from healthcare to transportation, framing AI as a new grammar for builders.</p>
+    <div class="embed-frame" data-yt="TwNRUF56QFg"></div>
+    <p class="exp-links"><a href="https://www.youtube.com/watch?v=TwNRUF56QFg" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr><td class="era-label" colspan="3">2024</td></tr>
+
+  <tr class="tk" data-id="t3" data-kind="talk"><td class="yr">2024</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">Llama 3 and the journey to general intelligence</button></span><span class="tag">Indiaspora AI Summit</span>
+    <span class="meta">Keynote <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t3" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">On Llama 3, what open-weights at frontier scale unlocks, and how Meta thinks about the road to general intelligence.</p>
+    <div class="embed-frame" data-yt="oh_sx6YlyFk"></div>
+    <p class="exp-links"><a href="https://www.youtube.com/watch?v=oh_sx6YlyFk" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t4" data-kind="panel"><td class="yr">2024</td><td class="glyph">◆</td><td class="evt">
+    <span class="name"><button class="titlebtn">The open vs. closed AI debate is &lsquo;ridiculous&rsquo;</button></span><span class="tag">Fortune Brainstorm AI</span>
+    <span class="meta">In conversation with Jason Del Rey <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t4" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">On the false binary between open and closed AI, the safety case for open weights, and where Llama goes from here.</p>
+    <p class="exp-links"><a href="https://fortune.com/2024/12/10/meta-llama-open-source-llm-debate-saftety-growth-brainstormai/" target="_blank" rel="noopener">Read on Fortune ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t5" data-kind="article"><td class="yr">2024</td><td class="glyph">✎</td><td class="evt">
+    <span class="name"><button class="titlebtn">AI&rsquo;s future could be in Australia &mdash; if one breakthrough lands</button></span><span class="tag">Capital Brief</span>
+    <span class="meta">Interview <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t5" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">On power as the binding constraint for AI, why compute will spread regionally, and what that means for countries outside the US.</p>
+    <p class="exp-links"><a href="https://www.capitalbrief.com/article/ais-future-could-be-in-australia-but-one-key-breakthrough-is-needed-says-meta-vp-291e954c-fc98-4d23-b348-0bd04a76de8f/preview/" target="_blank" rel="noopener">Read on Capital Brief ↗</a></p>
+  </div></div></td></tr>
+
+  <tr><td class="era-label" colspan="3">2021</td></tr>
+
+  <tr class="tk" data-id="t6" data-kind="podcast"><td class="yr">2021</td><td class="glyph">◉</td><td class="evt">
+    <span class="name"><button class="titlebtn">Egocentric perception &mdash; making machines see</button></span><span class="tag">How AI Happens · Sama</span>
+    <span class="meta">Podcast <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t6" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">A long-form conversation on the state of computer vision, the shift from third-person to first-person sensing, and the privacy &amp; transparency tradeoffs in egocentric perception.</p>
+    <div class="embed-frame" data-yt="TE2RQP8ihcM"></div>
+    <p class="exp-links"><a href="https://www.sama.com/podcast/podcast-episode-facebook-manohar-paluri" target="_blank" rel="noopener">Sama page ↗</a><span class="dot">·</span><a href="https://www.youtube.com/watch?v=TE2RQP8ihcM" target="_blank" rel="noopener">YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t7" data-kind="talk"><td class="yr">2021</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">Research is a process, not a destination</button></span><span class="tag">ICCV 2021 Workshop</span>
+    <span class="meta">Invited talk <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t7" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">For the ICCV &lsquo;21 &ldquo;Share Stories and Lessons Learned&rdquo; workshop &mdash; the academic and corporate journey, and what good research practice looks like across both.</p>
+    <div class="embed-frame" data-yt="Zy_GeDvhjAY"></div>
+    <p class="exp-links"><a href="https://www.youtube.com/watch?v=Zy_GeDvhjAY" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t8" data-kind="talk"><td class="yr">2021</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">Perception &amp; robotics at Meta AI Research</button></span><span class="tag">KAUST Research Open Week</span>
+    <span class="meta">Keynote <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t8" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">Keynote on the perception &amp; robotics agenda inside Meta AI Research &mdash; pushing the frontier of computer vision, conversational AI, and multi-modal reasoning.</p>
+    <p class="exp-links"><a href="https://researchopenweek.kaust.edu.sa/krow2021/speakers/detail/manohar-paluri" target="_blank" rel="noopener">Event page ↗</a></p>
+  </div></div></td></tr>
+
+  <tr><td class="era-label" colspan="3">Earlier</td></tr>
+
+  <tr class="tk" data-id="t9" data-kind="talk"><td class="yr">2020</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">Keynote &mdash; computer vision at platform scale</button></span><span class="tag">Invited keynote</span>
+    <span class="meta">Talk <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t9" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">A keynote on the state of computer vision at scale and the platform problems that come with it.</p>
+    <div class="embed-frame" data-yt="6-QRc4ffTn8"></div>
+    <p class="exp-links"><a href="https://www.youtube.com/watch?v=6-QRc4ffTn8" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  <tr class="tk" data-id="t10" data-kind="talk"><td class="yr">2017</td><td class="glyph">▶</td><td class="evt">
+    <span class="name"><button class="titlebtn">Building Facebook&rsquo;s visual cortex</button></span><span class="tag">LDV Vision Summit</span>
+    <span class="meta">Keynote <span class="chev">›</span></span>
+  </td></tr>
+  <tr class="exp" data-for="t10" hidden><td colspan="3"><div class="exp-inner"><div class="exp-pad"></div><div class="exp-body">
+    <p class="exp-tldr">From LDV Capital&rsquo;s 4th Annual Vision Summit. Inside the visual-understanding stack behind hundreds of Facebook products &mdash; the platform that became Lumos.</p>
+    <div class="embed-frame" data-yt="7dzvthBdO5g"></div>
+    <p class="exp-links"><a href="https://www.youtube.com/watch?v=7dzvthBdO5g" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+  </div></div></td></tr>
+
+  </tbody>
+</table>
+    </div>
+
+    <!-- Inquiries -->
+    <div class="tk-inq">
+      <div>
+        <p class="label">Speaking &amp; press</p>
+        <p>Open to keynotes, panels, podcasts and interviews &mdash; especially on topics in multimodal, frontier models, AI platforms and what it takes to OSS models and build products for billion scale.</p>
+        <p>For booking, please include event, date, audience size and format.</p>
+      </div>
+      <a class="cta" href="mailto:balamanohar@gmail.com?subject=Speaking%20inquiry">Email →</a>
+    </div>
+
   </section>
 
   <footer>
     <div>© <span id="year"></span> Manohar Paluri</div>
-    <div><a href="/">manoharpaluri.com &rarr;</a></div>
+    <div><a href="../index.html">Back home ←</a></div>
   </footer>
 
 </div>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- TWEAKS (mirror of home) -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="label">Theme</div>
+  <div class="row" data-tweak="theme">
+    <button data-val="warm">Warm</button>
+    <button data-val="paper">Paper</button>
+    <button data-val="green">Deep green</button>
+  </div>
+  <div class="label">Display font</div>
+  <div class="row" data-tweak="font">
+    <button data-val="serif">Serif</button>
+    <button data-val="sans">Sans</button>
+    <button data-val="mono">Mono</button>
+  </div>
+  <div class="label">Accent</div>
+  <div class="row" data-tweak="accent">
+    <button data-val="green" style="color:#1f4d3a">● green</button>
+    <button data-val="rust"  style="color:#a23d1a">● rust</button>
+    <button data-val="indigo" style="color:#2a3a8c">● indigo</button>
+    <button data-val="ink"  style="color:#111">● ink</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---- Tweaks (mirrors home) ---- */
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "font": "serif",
+    "accent": "ink"
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = {
+    green:  { a: "#1f4d3a", soft: "#d7e3dc" },
+    rust:   { a: "#a23d1a", soft: "#f1dccf" },
+    indigo: { a: "#2a3a8c", soft: "#dde0f0" },
+    ink:    { a: "#111111", soft: "#e6e6e6" }
+  };
+  const ACCENTS_DARK = {
+    green:  { a: "#8ad1a7", soft: "#18291f" },
+    rust:   { a: "#f0a079", soft: "#2a1a12" },
+    indigo: { a: "#a4b0f0", soft: "#161a2e" },
+    ink:    { a: "#e8e0cf", soft: "#1a1a1a" }
+  };
+
+  const tState = { ...TWEAK_DEFAULTS };
+  function applyTweaks() {
+    const html = document.documentElement;
+    html.dataset.theme = tState.theme;
+    html.dataset.font = tState.font;
+    const palette = tState.theme === "green" ? ACCENTS_DARK[tState.accent] : ACCENTS[tState.accent];
+    html.style.setProperty('--accent', palette.a);
+    html.style.setProperty('--accent-soft', palette.soft);
+    document.querySelectorAll('.tweaks .row').forEach(row => {
+      const key = row.dataset.tweak;
+      row.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.val === tState[key]));
+      });
+    });
+  }
+  document.querySelectorAll('.tweaks .row').forEach(row => {
+    const key = row.dataset.tweak;
+    row.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tState[key] = btn.dataset.val;
+        applyTweaks();
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: btn.dataset.val } }, '*'); } catch {}
+      });
+    });
+  });
+  applyTweaks();
+  window.addEventListener('message', (e) => {
+    const t = e.data && e.data.type;
+    if (t === '__activate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'true');
+    else if (t === '__deactivate_edit_mode') document.getElementById('tweaks').setAttribute('data-open', 'false');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch {}
+
+  /* ---- Accordion: one row open at a time, embeds mount on open / unmount on close ---- */
+  function mountEmbed(expRow) {
+    const yt = expRow.querySelector('[data-yt]');
+    if (yt && !yt.querySelector('iframe')) {
+      const id = yt.dataset.yt;
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+      f.title = 'Video player';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      f.allowFullscreen = true;
+      yt.appendChild(f);
+    }
+    const sp = expRow.querySelector('[data-spotify]');
+    if (sp && !sp.querySelector('iframe')) {
+      const path = sp.dataset.spotify;
+      const f = document.createElement('iframe');
+      f.src = `https://open.spotify.com/embed/${path}?utm_source=generator`;
+      f.title = 'Podcast player';
+      f.height = '152';
+      f.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      sp.appendChild(f);
+    }
+  }
+  function unmountEmbed(expRow) {
+    expRow.querySelectorAll('iframe').forEach(f => f.remove());
+  }
+  function closeAll(except) {
+    document.querySelectorAll('tr.tk.open').forEach(r => {
+      if (r === except) return;
+      r.classList.remove('open');
+      const exp = document.querySelector(`tr.exp[data-for="${r.dataset.id}"]`);
+      if (exp) { unmountEmbed(exp); exp.hidden = true; }
+    });
+  }
+  document.querySelectorAll('tr.tk').forEach(row => {
+    const btn = row.querySelector('.titlebtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const id = row.dataset.id;
+      const exp = document.querySelector(`tr.exp[data-for="${id}"]`);
+      if (!exp) return;
+      const isOpen = row.classList.contains('open');
+      closeAll(row);
+      if (isOpen) {
+        row.classList.remove('open');
+        unmountEmbed(exp);
+        exp.hidden = true;
+      } else {
+        row.classList.add('open');
+        exp.hidden = false;
+        mountEmbed(exp);
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
